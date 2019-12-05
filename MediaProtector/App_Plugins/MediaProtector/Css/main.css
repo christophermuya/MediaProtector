@@ -1,0 +1,31 @@
+﻿.mp-footer {
+    /*background-color: #e6e6e6;
+    padding: 5px;
+    border: 50px;
+    border-radius: 5px;*/
+}
+
+.mp-event-header {
+    border: 1px solid #c9a2a6;
+}
+
+.mp-icon {
+    color: #1b264f;
+    font-weight: bold;
+}
+
+.mp-event-box {
+    border: 1px solid #efefef;
+    background-color: #f6f4f4;
+    border-radius: 2px;
+    width: 70px;
+    height: 70px;
+    text-align: center;
+}
+
+.mp-info-label {
+    padding: 0 10px 0 0 !important;
+    font-weight: 700;
+    color: #000;
+    font-size: 14px;
+}

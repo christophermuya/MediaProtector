@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>MediaProtector</id>
+    <version>1.0.0</version>
+    <title>Media Protector</title>
+    <authors>Christopher Muya</authors>
+    <owners>Christopher Muya</owners>
+    <license type="expression">MIT</license>
+    <projectUrl>http://chrismuya.com/</projectUrl>
+    <iconUrl>https://chrismuya.com/media/sfnl00he/mediaprotector.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <summary>Protect media nodes for Umbraco 8</summary>
+    <description>
+      Media protector prevent users from performing certain action for a given media node. Actions such as saving, moving, trashing, or deleting.
+    </description>
+    <releaseNotes>
+      - 1.0.0
+      First release.
+    </releaseNotes>
+    <tags>Umbraco8 media node protect image video folder user property Editor</tags>
+  </metadata>  
+</package>
