@@ -30,5 +30,8 @@ namespace MediaProtector.App_Plugins.MediaProtector.Models {
         [Column("expansion")]
         [NullSetting(NullSetting = NullSettings.Null)]
         public string expansion { get; set; }
+
+        [Column("disableEvent")]
+        public bool disableEvent { get; set; }
     }
 }

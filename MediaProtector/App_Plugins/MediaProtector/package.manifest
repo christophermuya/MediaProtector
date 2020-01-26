@@ -4,13 +4,10 @@
   ],
 
   "javascript": [
-    "~/App_Plugins/MediaProtector/JsControllers/contentController.js",
-    "~/App_Plugins/MediaProtector/JsControllers/saveEventController.js",
-    "~/App_Plugins/MediaProtector/JsControllers/moveEventController.js",
-    "~/App_Plugins/MediaProtector/JsControllers/trashEventController.js",
-    "~/App_Plugins/MediaProtector/JsControllers/deleteEventController.js",
-    "~/App_Plugins/MediaProtector/JsControllers/expansionController.js",
-    "~/App_Plugins/MediaProtector/Resources/mpResource.js",
-    "~/App_Plugins/MediaProtector/Resources/mpPropertyEditor.js"
+    "~/App_Plugins/MediaProtector/JsControllers/content.controller.js",
+    "~/App_Plugins/MediaProtector/JsControllers/edit.controller.js",
+    "~/App_Plugins/MediaProtector/JsControllers/info.controller.js",
+    "~/App_Plugins/MediaProtector/JsControllers/protection.controller.js",
+    "~/App_Plugins/MediaProtector/Resources/mpResource.js"
   ]
 }

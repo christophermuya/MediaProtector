@@ -1,5 +1,6 @@
 ﻿using MediaProtector.App_Plugins.MediaProtector.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Persistence;
@@ -13,151 +14,57 @@ namespace MediaProtector.App_Plugins.MediaProtector.Controllers {
             _scopeProvider = scopeProvider;
         }
 
-        public EventModel GetSaveEventModel() {
+        public IEnumerable<EventModel> GetAll() {
+            try {
+                IEnumerable<EventModel> value;
+                using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {
+                    var sql = scope.SqlContext.Sql().Select("*").From<EventModel>();
+                    value = scope.Database.Fetch<EventModel>(sql);
+                }
+                return value;
+            }
+            catch(Exception ex) {
+                Logger.Error<EventModel>("Failed to get Media Protector settings",ex.Message);
+            }
+            return null;
+        }
+        public EventModel GetById(int id) {
             try {
                 EventModel value;
                 using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {
                     var sql = scope.SqlContext.Sql().Select("*").From<EventModel>()
-                    .Where<EventModel>(x => x.eventType == "save");
+                    .Where<EventModel>(x => x.id == id);
                     value = scope.Database.Fetch<EventModel>(sql).FirstOrDefault();
                 }
                 return value;
             }
             catch(Exception ex) {
-                Logger.Error<EventModel>("Failed to get Media Protector setting for save event",ex.Message);
+                Logger.Error<EventModel>("Failed to get Media Protector settings",ex.Message);
             }
             return null;
         }
 
-        public EventModel UpdateSaveEventModel(EventModel model) {
+        public EventModel Save(EventModel model) {
 
             try {
                 using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {
 
                     var sql = scope.SqlContext.Sql().Select("*").From<EventModel>()
-                                    .Where<EventModel>(x => x.eventType == "save");
+                                    .Where<EventModel>(x => x.id == model.id);
 
-                    EventModel saveEvent = scope.Database.Fetch<EventModel>(sql).FirstOrDefault();
-                    saveEvent.lastEdited = DateTime.Now;
-                    saveEvent.lastEditedBy = UmbracoContext.Security.CurrentUser.Name;
-                    saveEvent.mediaNodes = model.mediaNodes;
-                    saveEvent.userExceptions = model.userExceptions;
-                    scope.Database.Update(saveEvent);
+                    EventModel value = scope.Database.Fetch<EventModel>(sql).FirstOrDefault();
+                    value.disableEvent = model.disableEvent;
+                    value.lastEdited = DateTime.Now;
+                    value.lastEditedBy = UmbracoContext.Security.CurrentUser.Name;
+                    value.mediaNodes = model.mediaNodes;
+                    value.userExceptions = model.userExceptions;
+                    scope.Database.Update(value);
                 }
             }
             catch(Exception ex) {
-                Logger.Error<EventModel>("Failed to update Media Protector settings for the save event",ex.Message);
+                Logger.Error<EventModel>("Failed to save Media Protector settings for the" + model.eventType + " action",ex.Message);
             }
             return model;
         }
-
-        public EventModel GetMoveEventModel() {
-            try {
-                EventModel value;
-                using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {
-                    var sql = scope.SqlContext.Sql().Select("*").From<EventModel>().Where<EventModel>(x => x.eventType == "move");
-                    value = scope.Database.Fetch<EventModel>(sql).FirstOrDefault();
-                }
-                return value;
-            }
-            catch(Exception ex) {
-                Logger.Error<EventModel>("Failed to get Media Protector setting for move event",ex.Message);
-            }
-            return null;
-        }
-
-        public EventModel UpdateMoveEventModel(EventModel model) {
-
-            try {
-                using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {
-
-                    var sql = scope.SqlContext.Sql().Select("*").From<EventModel>().Where<EventModel>(x => x.eventType == "move");
-
-                    EventModel moveEvent = scope.Database.Fetch<EventModel>(sql).FirstOrDefault();
-                    moveEvent.lastEdited = DateTime.Now;
-                    moveEvent.lastEditedBy = UmbracoContext.Security.CurrentUser.Name;
-                    moveEvent.mediaNodes = model.mediaNodes;
-                    moveEvent.userExceptions = model.userExceptions;
-                    scope.Database.Update(moveEvent);
-                }
-            }
-            catch(Exception ex) {
-                Logger.Error<EventModel>("Failed to update Media Protector settings for the move event",ex.Message);
-            }
-            return model;
-        }
-
-        public EventModel GetTrashEventModel() {
-            try {
-                EventModel value;
-                using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {
-                    var sql = scope.SqlContext.Sql().Select("*").From<EventModel>().Where<EventModel>(x => x.eventType == "trash");
-                    value = scope.Database.Fetch<EventModel>(sql).FirstOrDefault();
-                }
-                return value;
-            }
-            catch(Exception ex) {
-                Logger.Error<EventModel>("Failed to get Media Protector setting for trash event",ex.Message);
-            }
-            return null;
-        }
-
-        public EventModel UpdateTrashEventModel(EventModel model) {
-
-            try {
-                using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {
-
-                    var sql = scope.SqlContext.Sql().Select("*").From<EventModel>().Where<EventModel>(x => x.eventType == "trash");
-
-                    EventModel trashEvent = scope.Database.Fetch<EventModel>(sql).FirstOrDefault();
-                    trashEvent.lastEdited = DateTime.Now;
-                    trashEvent.lastEditedBy = UmbracoContext.Security.CurrentUser.Name;
-                    trashEvent.mediaNodes = model.mediaNodes;
-                    trashEvent.userExceptions = model.userExceptions;
-                    scope.Database.Update(trashEvent);
-                }
-            }
-            catch(Exception ex) {
-                Logger.Error<EventModel>("Failed to update Media Protector settings for the trash event",ex.Message);
-            }
-            return model;
-        }
-
-        public EventModel GetDeleteEventModel() {
-            try {
-                EventModel value;
-                using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {
-                    var sql = scope.SqlContext.Sql().Select("*").From<EventModel>().Where<EventModel>(x => x.eventType == "delete");
-                    value = scope.Database.Fetch<EventModel>(sql).FirstOrDefault();
-                }
-                return value;
-            }
-            catch(Exception ex) {
-                Logger.Error<EventModel>("Failed to get Media Protector setting for delete event",ex.Message);
-            }
-            return null;
-        }
-
-        public EventModel UpdateDeleteEventModel(EventModel model) {
-
-            try {
-                using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {
-
-                    var sql = scope.SqlContext.Sql().Select("*").From<EventModel>().Where<EventModel>(x => x.eventType == "delete");
-
-                    EventModel deleteEvent = scope.Database.Fetch<EventModel>(sql).FirstOrDefault();
-                    deleteEvent.lastEdited = DateTime.Now;
-                    deleteEvent.lastEditedBy = UmbracoContext.Security.CurrentUser.Name;
-                    deleteEvent.mediaNodes = model.mediaNodes;
-                    deleteEvent.userExceptions = model.userExceptions;
-                    scope.Database.Update(deleteEvent);
-                }
-            }
-            catch(Exception ex) {
-                Logger.Error<EventModel>("Failed to update Media Protector settings for the delete event",ex.Message);
-            }
-            return model;
-        }
-
     }
 }

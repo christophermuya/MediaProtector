@@ -1,38 +1,53 @@
-﻿angular.module("umbraco").controller("deleteEventController", function ($http, mediaResource, editorService, $route, mpResource, usersResource, userService, mpPropertyEditor, notificationsService) {
+﻿angular.module("umbraco").controller("mp.edit.controller", function (navigationService, $routeParams, mediaResource, editorService, $route, mpResource, usersResource, notificationsService) {
     var vm = this;
-    vm.Name = "Delete Controller";
     vm.currentSelectedUsers = [];
     vm.selectedMediaIds = [];
+    vm.disableEvent = undefined;
+    vm.eventName = "";
 
-    var eventModel = {
-        mediaNodes: "",
-        userExceptions: "",
-        editedDate: "",
-        editedby: ""
-    };
+    var model = {
+        id: undefined,
+        eventType: undefined,
+        mediaNodes: undefined,
+        disableEvent: undefined,
+        userExceptions: undefined,
+        editedDate: undefined,
+        editedby: undefined
+    };   
 
-    mpResource.getDeleteEventModel().then(function (response) {
+    vm.showView = false;
+    vm.failToRetrieve = false;
+
+    mpResource.getById($routeParams.id).then(function (response) {
         if (response.data !== null) {
-            eventModel.mediaNodes = response.data.mediaNodes;
-            eventModel.userExceptions = response.data.userExceptions;
-            eventModel.editedDate = response.data.lastEdited;
-            eventModel.editedby = response.data.lastEditedBy;
+            //Highlight current node onclick
+            navigationService.syncTree({ tree: "mediaProtector", path: [$routeParams.id] });
+            model.id = response.data.id;
+            model.eventType = response.data.eventType;
+            model.mediaNodes = response.data.mediaNodes;
+            model.disableEvent = response.data.disableEvent;
+            model.userExceptions = response.data.userExceptions;
+            model.editedDate = response.data.lastEdited;
+            model.editedby = response.data.lastEditedBy;
+
+            vm.disableEvent = response.data.disableEvent;
+            vm.eventName = response.data.eventType.charAt(0).toUpperCase() + response.data.eventType.slice(1);
 
             if (response.data.userExceptions !== "") {
                 getExceptionUsers(response.data.userExceptions);
             }
-            if (response.data.mediaNodes !== "") {
-                getMediaNodes(response.data.mediaNodes);
-            }
+            if (response.data.mediaNodes !== undefined) {
+                if (response.data.mediaNodes !== "") {
+                    getMediaNodes(response.data.mediaNodes);
+                }
+            }            
         }
 
-
     }).then(function () {
-
-
+        //Temporary
     }).then(function () {
-        vm.editedDate = eventModel.editedDate;
-        vm.editedByUser = eventModel.editedby;
+        vm.editedDate = model.editedDate;
+        vm.editedByUser = model.editedby;
 
         vm.openUserPicker = function () {
             var userPicker = {
@@ -79,21 +94,42 @@
             };
             editorService.treePicker(mediaPicker);
         };
+    }).then(function () {       
+        if (model.id === undefined || ($routeParams.id < 1 || $routeParams.id > 4)) {
+            vm.showView = true;
+            vm.failToRetrieve = true;
+        }
+        else {
+            vm.showView = true;
+        }
     });
 
-    vm.saveSettings = function () {
+    vm.cancel = function () {
+        $route.reload();
+    };
+
+    vm.toggleDisableAction = function () {        
+        if (vm.disableEvent === false) {
+            vm.disableEvent = true;
+        }
+        else if (vm.disableEvent === true) {
+            vm.disableEvent = false;
+        }        
+    };
+
+    vm.save = function () {
 
         computeUserExceptionIds(vm.currentSelectedUsers);
         computeMediaIds(vm.selectedMediaIds);
+        model.disableEvent = vm.disableEvent;
+        vm.saveButtonState = 'busy';  
 
-        vm.saveSettingsState = 'busy';
-
-        mpResource.updateDeleteEventModel(eventModel).then(function (response) {
-            notificationsService.success('Saved ', " settings for move event");
-            vm.saveSettingsState = 'success';
+        mpResource.save(model).then(function (response) {
+            notificationsService.success('Saved ', " settings for " + model.eventType + " action.");
+            vm.saveButtonState = 'success';
 
         }, function (error) {
-            vm.saveSettingsState = 'error';
+            vm.saveButtonState = 'error';
             notificationsService.error('Error saving...', error.data.ExceptionMessage);
         });
     };
@@ -109,6 +145,7 @@
             });
         }
     }
+
 
     function getMediaNodes(mediaNodes) {
         mediaResource.getByIds(mediaNodes.split(",")).then(function (data) {
@@ -133,25 +170,25 @@
     }
 
     function computeMediaIds(items) {
-        eventModel.mediaNodes = "";
+        model.mediaNodes = "";
         for (let i = 0; i < items.length; i++) {
             if (i == (items.length - 1)) {
-                eventModel.mediaNodes += items[i].id;
+                model.mediaNodes += items[i].id;
             }
             else {
-                eventModel.mediaNodes += items[i].id + ",";
+                model.mediaNodes += items[i].id + ",";
             }
         }
     }
 
     function computeUserExceptionIds(items) {
-        eventModel.userExceptions = "";
+        model.userExceptions = "";
         for (let i = 0; i < items.length; i++) {
             if (i == (items.length - 1)) {
-                eventModel.userExceptions += items[i].id;
+                model.userExceptions += items[i].id;
             }
             else {
-                eventModel.userExceptions += items[i].id + ",";
+                model.userExceptions += items[i].id + ",";
             }
         }
     }

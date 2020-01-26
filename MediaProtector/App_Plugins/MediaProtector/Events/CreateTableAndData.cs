@@ -28,8 +28,8 @@ namespace MediaProtector.App_Plugins.MediaProtector.Events {
                         lastEditedBy = "",
                         mediaNodes = "",
                         userExceptions = "",
-                        expansion = null
-
+                        expansion = null,
+                        disableEvent = false
                     };
 
                     EventModel moveData = new EventModel() {
@@ -39,8 +39,8 @@ namespace MediaProtector.App_Plugins.MediaProtector.Events {
                         lastEditedBy = "",
                         mediaNodes = "",
                         userExceptions = "",
-                        expansion = null
-
+                        expansion = null,
+                        disableEvent = false
                     };
 
                     EventModel trashData = new EventModel() {
@@ -50,8 +50,8 @@ namespace MediaProtector.App_Plugins.MediaProtector.Events {
                         lastEditedBy = "",
                         mediaNodes = "",
                         userExceptions = "",
-                        expansion = null
-
+                        expansion = null,
+                        disableEvent = false
                     };
 
                     EventModel deleteData = new EventModel() {
@@ -61,8 +61,8 @@ namespace MediaProtector.App_Plugins.MediaProtector.Events {
                         lastEditedBy = "",
                         mediaNodes = "",
                         userExceptions = "",
-                        expansion = null
-
+                        expansion = null,
+                        disableEvent = false
                     };
 
                     using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {

@@ -31,7 +31,8 @@ namespace MediaProtector.App_Plugins.MediaProtector.Components {
             // Each step in the migration adds a unique value
             //More info at https://www.zpqrtbnk.net/posts/migrations-in-v8
             migrationPlan.From(string.Empty)
-                .To<CreateTableAndData>("Initialized-MediaProtector");
+                .To<CreateTableAndData>("Initialized-MediaProtector")
+                .To<AddDisableEventColumn>("Add-disableEvent-Column");
 
             // Go and upgrade our site (Will check if it needs to do the work or not)
             // Based on the current/latest step

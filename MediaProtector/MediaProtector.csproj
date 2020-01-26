@@ -220,16 +220,19 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="Umbraco.Core, Version=8.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UmbracoCms.Core.8.3.0\lib\net472\Umbraco.Core.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.8.5.2\lib\net472\Umbraco.Core.dll</HintPath>
     </Reference>
     <Reference Include="Umbraco.Examine, Version=8.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UmbracoCms.Web.8.3.0\lib\net472\Umbraco.Examine.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Web.8.5.2\lib\net472\Umbraco.Examine.dll</HintPath>
+    </Reference>
+    <Reference Include="Umbraco.ModelsBuilder.Embedded, Version=8.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Web.8.5.2\lib\net472\Umbraco.ModelsBuilder.Embedded.dll</HintPath>
     </Reference>
     <Reference Include="Umbraco.Web, Version=8.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UmbracoCms.Web.8.3.0\lib\net472\Umbraco.Web.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Web.8.5.2\lib\net472\Umbraco.Web.dll</HintPath>
     </Reference>
     <Reference Include="Umbraco.Web.UI, Version=8.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UmbracoCms.Web.8.3.0\lib\net472\Umbraco.Web.UI.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Web.8.5.2\lib\net472\Umbraco.Web.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -238,36 +241,29 @@
     <Compile Include="App_Plugins\MediaProtector\Composers\Composer.cs" />
     <Compile Include="App_Plugins\MediaProtector\Controllers\MediaProtectorApiController.cs" />
     <Compile Include="App_Plugins\MediaProtector\Controllers\MediaProtectorTreeController.cs" />
+    <Compile Include="App_Plugins\MediaProtector\Events\AddDisableEventColumn.cs" />
     <Compile Include="App_Plugins\MediaProtector\Events\CreateTableAndData.cs" />
     <Compile Include="App_Plugins\MediaProtector\MediaProtectorSettings.cs" />
     <Compile Include="App_Plugins\MediaProtector\Models\EventModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Plugins\MediaProtector\backoffice\mediaProtector\content.html" />
-    <Content Include="App_Plugins\MediaProtector\backoffice\mediaProtector\deleteEvent.html" />
-    <Content Include="App_Plugins\MediaProtector\backoffice\mediaProtector\expansion.html" />
-    <Content Include="App_Plugins\MediaProtector\backoffice\mediaProtector\moveEvent.html" />
-    <Content Include="App_Plugins\MediaProtector\backoffice\mediaProtector\saveEvent.html" />
-    <Content Include="App_Plugins\MediaProtector\backoffice\mediaProtector\trashEvent.html" />
-    <Content Include="App_Plugins\MediaProtector\Css\main.css" />
-    <Content Include="App_Plugins\MediaProtector\JsControllers\contentController.js" />
-    <Content Include="App_Plugins\MediaProtector\JsControllers\deleteEventController.js" />
-    <Content Include="App_Plugins\MediaProtector\JsControllers\expansionController.js" />
-    <Content Include="App_Plugins\MediaProtector\JsControllers\moveEventController.js" />
-    <Content Include="App_Plugins\MediaProtector\JsControllers\saveEventController.js" />
-    <Content Include="App_Plugins\MediaProtector\JsControllers\trashEventController.js" />
-    <Content Include="App_Plugins\MediaProtector\Lang\en-us.xml" />
-    <Content Include="App_Plugins\MediaProtector\Resources\mpPropertyEditor.js" />
     <Content Include="App_Plugins\MediaProtector\Resources\mpResource.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_Plugins\MediaProtector\package.manifest" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
+    <Content Include="App_Plugins\MediaProtector\package.manifest" />
     <None Include="MediaProtector.nuspec" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Plugins\MediaProtector\backoffice\mediaProtector\content.html" />
+    <Content Include="App_Plugins\MediaProtector\backoffice\mediaProtector\edit.html" />
+    <Content Include="App_Plugins\MediaProtector\backoffice\mediaProtector\info.html" />
+    <Content Include="App_Plugins\MediaProtector\backoffice\mediaProtector\protection.html" />
+    <Content Include="App_Plugins\MediaProtector\Css\main.css" />
+    <Content Include="App_Plugins\MediaProtector\JsControllers\content.controller.js" />
+    <Content Include="App_Plugins\MediaProtector\JsControllers\edit.controller.js" />
+    <Content Include="App_Plugins\MediaProtector\JsControllers\info.controller.js" />
+    <Content Include="App_Plugins\MediaProtector\JsControllers\protection.controller.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets" Condition="Exists('..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets')" />

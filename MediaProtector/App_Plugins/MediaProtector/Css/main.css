@@ -5,8 +5,12 @@
     border-radius: 5px;*/
 }
 
-.mp-event-header {
-    border: 1px solid #c9a2a6;
+.mp-action-header {
+    background-color: #1b264f;
+}
+
+.mp-title {
+    color: white !important;
 }
 
 .mp-icon {
@@ -14,7 +18,7 @@
     font-weight: bold;
 }
 
-.mp-event-box {
+.mp-action-box {
     border: 1px solid #efefef;
     background-color: #f6f4f4;
     border-radius: 2px;
@@ -28,4 +32,87 @@
     font-weight: 700;
     color: #000;
     font-size: 14px;
+}
+
+.mp-panel-header {
+    padding: 5px 20px;
+}
+
+.mp-panel {
+    padding: 5px 0;
+    display: -webkit-box;
+    display: flex;
+    border-top: 2px solid #f3f3f5;
+}
+
+.mp-box-info {
+    background: #fff;
+    border-radius: 3px;
+    padding: 15px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.16)
+}
+
+.mp-panel-group {
+    -webkit-box-flex: 0;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.mp-action {
+    position: relative;
+    display: -webkit-inline-box;
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+    min-width: 63px;
+}
+
+.mp-status {
+    position: relative;
+    display: -webkit-inline-box;
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    padding-left: 8px;
+    padding-right: 8px;
+    color: #000;
+    font-weight: 700;
+    font-size: 24px;
+    min-width: 24px;
+}
+
+.mp-text {
+    font-size: 14px;
+    color: #080808;
+}
+
+.mp-userDate {
+    margin-left: auto;
+    -webkit-box-flex: 0;
+    flex: 0 0 auto;
+    padding-right: 10px;
+    font-size: 13px;
+    color: #817f85;
+    min-height: 40px;
+    min-width: 170px;
+}
+
+.mp-info-icon {
+    list-style: none;
+}
+
+.mp-info-icon > li > i {
+    font-size: 25px;
+}
+
+.mp-box-info > h4 {
+    font-size: 18px !important;
+    font-weight: bold !important;
 }

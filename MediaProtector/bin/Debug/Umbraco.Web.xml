@@ -601,6 +601,22 @@
             The <see cref="T:System.Net.Http.HttpResponseMessage"/>.
             </returns>
         </member>
+        <member name="M:Umbraco.Web.Editors.MacrosController.GetGroupedParameterEditors">
+            <summary>
+            Gets the available parameter editors grouped by their group.
+            </summary>
+            <returns>
+            The <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </returns>
+        </member>
+        <member name="M:Umbraco.Web.Editors.MacrosController.GetParameterEditorByAlias(System.String)">
+            <summary>
+            Get parameter editor by alias.
+            </summary>
+            <returns>
+            The <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </returns>
+        </member>
         <member name="M:Umbraco.Web.Editors.MacrosController.ReturnErrorResponse(System.String,System.Boolean,System.Exception)">
             <summary>
             Returns a error response and optionally logs it
@@ -639,7 +655,6 @@
             Finds partial view files in app plugin folders.
             </summary>
             <returns>
-            The <see cref="!:IEnumerable"/>.
             </returns>
         </member>
         <member name="M:Umbraco.Web.Editors.MacrosController.FindPartialViewFilesInFolder(System.String,System.String,System.String)">
@@ -1883,6 +1898,21 @@
             Move the media type
             </summary>
             <param name="move"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Umbraco.Web.Editors.DataTypeController.GetReferences(System.Int32)">
+            <summary>
+            Returns the references (usages) for the data type
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Umbraco.Web.Editors.DataTypeController.GetContentTypeUsages(System.Collections.Generic.IEnumerable{Umbraco.Core.Models.IContentTypeBase},System.Collections.Generic.IReadOnlyDictionary{System.Guid,System.Collections.Generic.IEnumerable{System.String}})">
+            <summary>
+            Maps the found content types and usages to the resulting model
+            </summary>
+            <param name="cts"></param>
+            <param name="usages"></param>
             <returns></returns>
         </member>
         <member name="M:Umbraco.Web.Editors.DataTypeController.GetAll">
@@ -3177,8 +3207,8 @@
             <summary>
             This will test the directories for write access
             </summary>
-            <param name="directories"></param>
-            <param name="errorReport"></param>
+            <param name="dirs"></param>
+            <param name="errors"></param>
             <param name="writeCausesRestart">
             If this is false, the easiest way to test for write access is to write a temp file, however some folder will cause
             an App Domain restart if a file is written to the folder, so in that case we need to use the ACL APIs which aren't as
@@ -8233,6 +8263,11 @@
              </para>
              </remarks>
         </member>
+        <member name="T:Umbraco.Web.Mvc.StatusCodeResultAttribute">
+            <summary>
+            Forces the response to have a specific http status code
+            </summary>
+        </member>
         <member name="T:Umbraco.Web.Mvc.ValidateUmbracoFormRouteStringAttribute">
             <summary>
             Attribute used to check that the request contains a valid Umbraco form request string.
@@ -8318,7 +8353,7 @@
         </member>
         <member name="T:Umbraco.Web.Mvc.RenderIndexActionSelectorAttribute">
             <summary>
-            A custom ActionMethodSelector which will ensure that the RenderMvcController.Index(RenderModel model) action will be executed
+            A custom ActionMethodSelector which will ensure that the RenderMvcController.Index(ContentModel model) action will be executed
             if the
             </summary>
         </member>
@@ -9530,7 +9565,7 @@
         </member>
         <member name="M:Umbraco.Web.Mvc.RenderRouteHandler.GetUmbracoRouteDefinition(System.Web.Routing.RequestContext,Umbraco.Web.Routing.PublishedRequest)">
             <summary>
-            Returns a RouteDefinition object based on the current renderModel
+            Returns a RouteDefinition object based on the current content request
             </summary>
             <param name="requestContext"></param>
             <param name="request"></param>
@@ -9581,7 +9616,7 @@
         </member>
         <member name="P:Umbraco.Web.Mvc.RouteDefinition.PublishedRequest">
             <summary>
-            The current RenderModel found for the request
+            Everything related to the current content request including the requested content
             </summary>
         </member>
         <member name="P:Umbraco.Web.Mvc.RouteDefinition.HasHijackedRoute">
@@ -9782,12 +9817,6 @@
             <param name="contentFetcher">A function to fetch content of type <paramref name="expectedType"/></param>
             <returns>The requested content, or null if either it does not exist or <paramref name="actualType"/> does not match <paramref name="expectedType"/></returns>
         </member>
-        <member name="T:Umbraco.Web.PropertyEditors.ValueConverters.MacroContainerValueConverter">
-            <summary>
-            Ensures macro syntax is parsed for the macro container which will work when getting the field
-            values in any way (i.e. dynamically, using Field(), or IPublishedContent)
-            </summary>
-        </member>
         <member name="T:Umbraco.Web.PropertyEditors.ValueConverters.RteMacroRenderingValueConverter">
             <summary>
             A value converter for TinyMCE that will ensure any macro content is rendered properly even when
@@ -9832,7 +9861,7 @@
         </member>
         <member name="T:Umbraco.Web.PropertyEditors.GridConfigurationEditor">
             <summary>
-            Represents the configuration for the grid value editor.
+            Represents the configuration editor for the grid value editor.
             </summary>
         </member>
         <member name="T:Umbraco.Web.PropertyEditors.ImageCropperConfigurationEditor">
@@ -9856,16 +9885,6 @@
         <member name="T:Umbraco.Web.PropertyEditors.ListViewConfigurationEditor">
             <summary>
             Represents the configuration editor for the listview value editor.
-            </summary>
-        </member>
-        <member name="T:Umbraco.Web.PropertyEditors.MacroContainerConfiguration">
-            <summary>
-            Represents the configuration for the macro container value editor.
-            </summary>
-        </member>
-        <member name="T:Umbraco.Web.PropertyEditors.MacroContainerConfigurationEditor">
-            <summary>
-            Represents the configuration editor for the macro container value editor.
             </summary>
         </member>
         <member name="T:Umbraco.Web.PropertyEditors.MarkdownConfiguration">
@@ -10356,12 +10375,18 @@
             </summary>
             <param name="property"></param>
             <param name="dataTypeService"></param>
-            <param name="languageId"></param>
+            <param name="culture"></param>
             <param name="segment"></param>
             <returns></returns>
             <remarks>
             The legacy property editor saved this data as new line delimited! strange but we have to maintain that.
             </remarks>
+        </member>
+        <member name="P:Umbraco.Web.PropertyEditors.MultipleTextStringPropertyEditor.MultipleTextStringPropertyValueEditor.FormatValidator">
+            <summary>
+            A custom FormatValidator is used as for multiple text strings, each string should individually be checked
+            against the configured regular expression, rather than the JSON representing all the strings as a whole.
+            </summary>
         </member>
         <member name="T:Umbraco.Web.PropertyEditors.MultipleValueEditor">
             <summary>
@@ -13221,7 +13246,7 @@
         </member>
         <member name="M:Umbraco.Web.Search.UmbracoTreeSearcher.ExamineSearch(System.String,Umbraco.Web.Models.ContentEditing.UmbracoEntityTypes,System.Int32,System.Int64,System.Int64@,System.String,System.Boolean)">
             <summary>
-            Searches for results based on the entity type
+            Searches Examine for results based on the entity type
             </summary>
             <param name="query"></param>
             <param name="entityType"></param>
@@ -13232,6 +13257,18 @@
             <param name="pageSize"></param>
             <param name="pageIndex"></param>
             <param name="ignoreUserStartNodes">If set to true, user and group start node permissions will be ignored.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Umbraco.Web.Search.UmbracoTreeSearcher.EntitySearch(Umbraco.Core.Models.UmbracoObjectTypes,System.String,System.Int32,System.Int64,System.Int64@,System.String)">
+            <summary>
+            Searches with the <see cref="T:Umbraco.Core.Services.IEntityService"/> for results based on the entity type
+            </summary>
+            <param name="objectType"></param>
+            <param name="query"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <param name="totalFound"></param>
+            <param name="searchFrom"></param>
             <returns></returns>
         </member>
         <member name="M:Umbraco.Web.Search.UmbracoTreeSearcher.MemberFromSearchResults(System.Collections.Generic.IEnumerable{Examine.ISearchResult})">
@@ -14002,7 +14039,7 @@
             </summary>
             <remarks>Dependencies are obtained from the <see cref="T:Umbraco.Core.Composing.Current"/> service locator.</remarks>
         </member>
-        <member name="M:Umbraco.Web.WebApi.UmbracoApiControllerBase.#ctor(Umbraco.Core.Configuration.IGlobalSettings,Umbraco.Web.IUmbracoContextAccessor,Umbraco.Core.Persistence.ISqlContext,Umbraco.Core.Services.ServiceContext,Umbraco.Core.Cache.AppCaches,Umbraco.Core.Logging.IProfilingLogger,Umbraco.Core.IRuntimeState,Umbraco.Web.UmbracoHelper)">
+        <member name="M:Umbraco.Web.WebApi.UmbracoApiControllerBase.#ctor(Umbraco.Core.Configuration.IGlobalSettings,Umbraco.Web.IUmbracoContextAccessor,Umbraco.Core.Persistence.ISqlContext,Umbraco.Core.Services.ServiceContext,Umbraco.Core.Cache.AppCaches,Umbraco.Core.Logging.IProfilingLogger,Umbraco.Core.IRuntimeState,Umbraco.Web.UmbracoHelper,Umbraco.Core.Mapping.UmbracoMapper)">
             <summary>
             Initializes a new instance of the <see cref="T:Umbraco.Web.WebApi.UmbracoApiControllerBase"/> class with all its dependencies.
             </summary>
@@ -19859,7 +19896,7 @@
         </member>
         <member name="M:Umbraco.Web.ModelStateExtensions.GetCulturesWithPropertyErrors(System.Web.Http.ModelBinding.ModelStateDictionary,Umbraco.Core.Services.ILocalizationService,System.String)">
             <summary>
-            Returns a list of cultures that have property validation errors errors
+            Returns a list of cultures that have property validation errors
             </summary>
             <param name="modelState"></param>
             <param name="localizationService"></param>
