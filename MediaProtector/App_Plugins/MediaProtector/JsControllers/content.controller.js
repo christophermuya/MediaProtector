@@ -12,7 +12,7 @@
             {
                 name: 'Protection',
                 alias: 'protection',
-                icon: 'icon-custom-account-balance-wallet',
+                icon: 'icon-lock',
                 view: backofficeView + 'protection.html',
                 active: true
             },
