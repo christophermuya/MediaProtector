@@ -38,7 +38,7 @@ namespace MediaProtector.App_Plugins.MediaProtector.Components {
                 int _currentUserId;
 
                 using(var contextReference = _context.EnsureUmbracoContext()) {
-                    _currentUserId = contextReference.UmbracoContext.Security.IsAuthenticated() ? contextReference.UmbracoContext.Security.CurrentUser.Id : -1;
+                    _currentUserId = contextReference.UmbracoContext.Security.IsAuthenticated() ? contextReference.UmbracoContext.Security.CurrentUser.Id : Umbraco.Core.Constants.Security.SuperUserId;
                 }
 
                 using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {
@@ -70,7 +70,7 @@ namespace MediaProtector.App_Plugins.MediaProtector.Components {
                 int _currentUserId;
 
                 using(var contextReference = _context.EnsureUmbracoContext()) {
-                    _currentUserId = contextReference.UmbracoContext.Security.IsAuthenticated() ? contextReference.UmbracoContext.Security.CurrentUser.Id : -1;
+                    _currentUserId = contextReference.UmbracoContext.Security.IsAuthenticated() ? contextReference.UmbracoContext.Security.CurrentUser.Id : Umbraco.Core.Constants.Security.SuperUserId;
                 }
 
                 using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {
@@ -102,7 +102,7 @@ namespace MediaProtector.App_Plugins.MediaProtector.Components {
                 int _currentUserId;
 
                 using(var contextReference = _context.EnsureUmbracoContext()) {
-                    _currentUserId = contextReference.UmbracoContext.Security.IsAuthenticated() ? contextReference.UmbracoContext.Security.CurrentUser.Id : -1;
+                    _currentUserId = contextReference.UmbracoContext.Security.IsAuthenticated() ? contextReference.UmbracoContext.Security.CurrentUser.Id : Umbraco.Core.Constants.Security.SuperUserId;
                 }
 
                 using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {
@@ -134,7 +134,7 @@ namespace MediaProtector.App_Plugins.MediaProtector.Components {
                 int _currentUserId;
 
                 using(var contextReference = _context.EnsureUmbracoContext()) {
-                    _currentUserId = contextReference.UmbracoContext.Security.IsAuthenticated() ? contextReference.UmbracoContext.Security.CurrentUser.Id : -1;
+                    _currentUserId = contextReference.UmbracoContext.Security.IsAuthenticated() ? contextReference.UmbracoContext.Security.CurrentUser.Id : Umbraco.Core.Constants.Security.SuperUserId;
                 }
 
                 using(var scope = _scopeProvider.CreateScope(autoComplete: true)) {
